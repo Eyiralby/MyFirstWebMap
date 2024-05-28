@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project</title>
+    <link rel="stylesheet" href="leaflet.css">
+<script src="leaflet.js"></script>
+<style>
+body {
+padding: 0;
+margin: 0;
+}
+html, body, #map {
+height: 100%;
+width: 100%;
+}
+.legend {
+font-size: 16px;
+line-height: 24px;
+color: #333333;
+font-family: 'Open Sans', Helvetica, sans-serif;
+padding: 10px 14px;
+background-color: rgba(245,245,220,0.8) ;
+box-shadow: 0 0 15px rgba(0,0,0,0.2);
+border-radius: 5px;
+max-width: 250px;
+border: 1px solid grey;
+}
+.legend p {
+font-size: 16px;
+line-height: 24px;
+}
+.legend img {
+max-width: 200px;
+margin: auto;
+display: block;
+}
+
+
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+var map = L.map("map").setView([5.5593, 0.1974], 5);
+L.tileLayer(
+"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+{attribution: '&copy; <a href="http://' +
+'www.openstreetmap.org/copyright">OpenStreetMap</a>'}
+).addTo(map);
+
+var popup = L.popup();
+function onMapClick(e) {
+popup
+.setLatLng(e.latlng)
+.setContent(
+"You clicked the map at -<br>" +
+"<b>lon:</b> " + e.latlng.lng + "<br>" +
+"<b>lat:</b> " + e.latlng.lat
+)
+.openOn(map);
+}
+map.on("click", onMapClick);
+
+var legend = L.control({position: "bottomleft"});
+legend.onAdd = function(map) {
+var div = L.DomUtil.create("div", "legend");
+div.innerHTML =
+'<p><b>HOSPITALS</b></p><hr>' +
+'<p>This map shows the distribution of major healthcare facilities in Accra ' +
+'</p>' +
+'The following shapes added:<br>' +
+'<p><ul>' + 
+'<li>Markers</li>' + '<li> A circle marker of 1km radius for mobile location if available</li>' +
+'</ul></p>' +
+'The point layer has <b>popups</b>. ' +
+'Click on a point to see it!<hr>' +
+'Created with the Leaflet library<br>' +
+'<img src="images/leaflet.png">';
+return div;
+};
+legend.addTo(map);
+
+var hospitals = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ridge Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.19917251837318872,
+          5.562402691943532
+        ],
+        "type": "Point"
+      },
+      "id": 0
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Princes Marie Louie Children's Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.21313897175642182,
+          5.544677251823444
+        ],
+        "type": "Point"
+      },
+      "id": 1
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Korle Bu Teaching Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.22703943361599954,
+          5.537730240150438
+        ],
+        "type": "Point"
+      },
+      "id": 2
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ghana Police Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.18158827162295665,
+          5.568478829166949
+        ],
+        "type": "Point"
+      },
+      "id": 3
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "37 Military Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.18482714677790568,
+          5.5872629407387535
+        ],
+        "type": "Point"
+      },
+      "id": 4
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "McHenly's Medical Center"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.17451196968519866,
+          5.641731556130111
+        ],
+        "type": "Point"
+      },
+      "id": 5
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Achimota Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.217158433463851,
+          5.6298322879393226
+        ],
+        "type": "Point"
+      },
+      "id": 6
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "University of Ghana Medical Center"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.1859969295543351,
+          5.631839763668921
+        ],
+        "type": "Point"
+      },
+      "id": 7
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Chrispid Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.23198672133761988,
+          5.643516445742236
+        ],
+        "type": "Point"
+      },
+      "id": 8
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Obaatan Pa Women's Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.16871717255261842,
+          5.631033434976061
+        ],
+        "type": "Point"
+      },
+      "id": 9
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lister Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.14657232025760436,
+          5.619379539302329
+        ],
+        "type": "Point"
+      },
+      "id": 10
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lekma Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.12001349737337819,
+          5.603001618150188
+        ],
+        "type": "Point"
+      },
+      "id": 11
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Manna Mission"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.10739232299036416,
+          5.607030817470331
+        ],
+        "type": "Point"
+      },
+      "id": 12
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Grace Memorial Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.11232515769347629,
+          5.596966095212622
+        ],
+        "type": "Point"
+      },
+      "id": 13
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Inkoom Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.09822258198823874,
+          5.633760970525913
+        ],
+        "type": "Point"
+      },
+      "id": 14
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "C&J Medicare Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.06951333526865255,
+          5.624426283572703
+        ],
+        "type": "Point"
+      },
+      "id": 15
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "City of Hope Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.05663829801255815,
+          5.639487057780485
+        ],
+        "type": "Point"
+      },
+      "id": 16
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Landmark Medical Center"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.0759149956907379,
+          5.653489655159419
+        ],
+        "type": "Point"
+      },
+      "id": 17
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Klagon Maternity Clinic"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.04984419675329832,
+          5.664690119105089
+        ],
+        "type": "Point"
+      },
+      "id": 18
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tema General Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.024881687861807222,
+          5.674413496513239
+        ],
+        "type": "Point"
+      },
+      "id": 19
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bengali Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.02035902538827372,
+          5.667827380783066
+        ],
+        "type": "Point"
+      },
+      "id": 20
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pro Vita Specialist Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.019712743148801337,
+          5.65227863245093
+        ],
+        "type": "Point"
+      },
+      "id": 21
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Valco Clinic"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.010160260401420373,
+          5.652441178504674
+        ],
+        "type": "Point"
+      },
+      "id": 22
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tema Polyclinic"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.00668235432289066,
+          5.635856617213506
+        ],
+        "type": "Point"
+      },
+      "id": 23
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lighthouse Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          0.024344270041638083,
+          5.647928850027142
+        ],
+        "type": "Point"
+      },
+      "id": 24
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Valco Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          0.03446510675507852,
+          5.668959198129556
+        ],
+        "type": "Point"
+      },
+      "id": 25
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "MBA Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.25668032330304413,
+          5.601162582390188
+        ],
+        "type": "Point"
+      },
+      "id": 26
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Faith Evangelical Mission Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.24515287179625034,
+          5.5791640161170335
+        ],
+        "type": "Point"
+      },
+      "id": 27
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "kaneshie Policlinic"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.23099854420357246,
+          5.574509368071517
+        ],
+        "type": "Point"
+      },
+      "id": 28
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Cocoa Clinic"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.23626303464996568,
+          5.571839940838586
+        ],
+        "type": "Point"
+      },
+      "id": 29
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Hajj Abdulia Maternity Clinic"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.1994684566792273,
+          5.585273913345347
+        ],
+        "type": "Point"
+      },
+      "id": 30
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lapaz Community Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.2537176893520723,
+          5.608708560519574
+        ],
+        "type": "Point"
+      },
+      "id": 31
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Emmanuel Community Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.23759894023146444,
+          5.606531691451551
+        ],
+        "type": "Point"
+      },
+      "id": 32
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Al-Ayar Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.24035155210899006,
+          5.61385527065984
+        ],
+        "type": "Point"
+      },
+      "id": 33
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "North Deseret Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.2788354880785562,
+          5.6080425366387345
+        ],
+        "type": "Point"
+      },
+      "id": 34
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Armah Memorial"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.24328630412824737,
+          5.558346969023347
+        ],
+        "type": "Point"
+      },
+      "id": 35
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Urology & Nephrology Center of Excellence"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.22838839673832467,
+          5.5417046476326135
+        ],
+        "type": "Point"
+      },
+      "id": 36
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mamprobi Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.24547406448587594,
+          5.538335053175842
+        ],
+        "type": "Point"
+      },
+      "id": 37
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Dr. Beecham's Central Clinic"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.262245532307503,
+          5.552280836697747
+        ],
+        "type": "Point"
+      },
+      "id": 38
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Karikari Brobbey Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.2615178898769841,
+          5.531076142656801
+        ],
+        "type": "Point"
+      },
+      "id": 39
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Provident Specilist Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.23635269586668528,
+          5.62631585005461
+        ],
+        "type": "Point"
+      },
+      "id": 40
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "C&J Medicare Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.21008212510903945,
+          5.5535099713972755
+        ],
+        "type": "Point"
+      },
+      "id": 41
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Atta Quarshie Merton Memorial Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.21380802896584328,
+          5.561986065198212
+        ],
+        "type": "Point"
+      },
+      "id": 42
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Accra Psychiatric Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.2046342321004886,
+          5.563306896349545
+        ],
+        "type": "Point"
+      },
+      "id": 43
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "University of Ghana Hospital"
+      },
+      "geometry": {
+        "coordinates": [
+          -0.17812983473359623,
+          5.651609171260645
+        ],
+        "type": "Point"
+      },
+      "id": 44
+    }
+  ]
+}
+
+L.geoJSON(hospitals, {
+  onEachFeature: function (Feature, layer) {
+    if (Feature.properties && Feature.properties.name) {
+      layer.bindPopup(Feature.properties.name);
+    }
+  }
+}).addTo(map);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 19,
+}).addTo(map);
+
+// Add a circle marker for mobile location
+var circle = L.circle([5.4601, -0.1222], {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 1000
+  }).addTo(map); // set the radius in meters
+
+  // Initialize leaflet.locate plugin
+  var lc = L.control.locate().addTo(map);
+
+  // When location is found, update the circle position
+  map.on('locationfound', function(e){
+    var radius = e.accuracy / 2;
+    circle.setLatLng(e.latlng);
+    circle.setRadius(radius);
+  });
+
+  // If location is not found, remove the circle
+  map.on('locationerror', function(){
+    map.removeLayer(circle);
+  });
+
+
+
+</script>
+</head>
+<body>
+    
+</body>
+</html>
