@@ -738,7 +738,7 @@ var circle = L.circle([5.4601, -0.1222], {
     radius: 1000
   }).addTo(map); // set the radius in meters
 
- map.locate({setView: true, maxZoom: 16});
+ map.locate({setView: true, maxZoom: 5});
 
   // When location is found, update the circle position
   map.on('locationfound', function(e){
